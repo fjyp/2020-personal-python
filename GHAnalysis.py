@@ -2,17 +2,18 @@ import json
 import os
 import argparse
 
+
 class Data:
     def __init__(self, dict_address: int = None, reload: int = 0):
         if reload == 1:
             self.__init(dict_address)
-        if dict_address is None and not os.path.exists('1.json') : # and not os.path.exists('2.json') and not os.path.exists('3.json'):
+        if dict_address is None and not os.path.exists('1.json') and not os.path.exists('2.json') and not os.path.exists('3.json'):
             raise RuntimeError('error: init failed')
         x = open('1.json', 'r', encoding='utf-8').read()
         self.__4Events4PerP = json.loads(x)
-        x = open('1.json', 'r', encoding='utf-8').read()
+        x = open('2.json', 'r', encoding='utf-8').read()
         self.__4Events4PerR = json.loads(x)
-        x = open('1.json', 'r', encoding='utf-8').read()
+        x = open('3.json', 'r', encoding='utf-8').read()
         self.__4Events4PerPPerR = json.loads(x)
 
     def __init(self, dict_address: str):
@@ -49,9 +50,9 @@ class Data:
                                                           ] = self.__4Events4PerPPerR[i['actor__login']][i['repo__name']].get(i['type'], 0)+1
         with open('1.json', 'w', encoding='utf-8') as f:
             json.dump(self.__4Events4PerP,f)
-        with open('1.json', 'w', encoding='utf-8') as f:
+        with open('2.json', 'w', encoding='utf-8') as f:
             json.dump(self.__4Events4PerR,f)
-        with open('1.json', 'w', encoding='utf-8') as f:
+        with open('3.json', 'w', encoding='utf-8') as f:
             json.dump(self.__4Events4PerPPerR,f)
 
     def __parseDict(self, d: dict, prefix: str):
@@ -122,7 +123,7 @@ class Run:
                             self.parser.parse_args().user, self.parser.parse_args().event)
                 elif self.parser.parse_args().repo:
                     res = self.data.getEventsRepos(
-                        self.parser.parse_args().reop, self.parser.parse_args().event)
+                        self.parser.parse_args().repo, self.parser.parse_args().event)
                 else:
                     raise RuntimeError('error: argument -l or -c are required')
             else:
